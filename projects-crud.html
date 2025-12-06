@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="icon" href="SCicon.png" type="image/png">
+  <meta charset="utf-8">
+  <title>Project Data CRUD — Shuting Chen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/theme-toggle.css">
+  <link rel="stylesheet" href="css/projects.css">
+
+  <script src="js/theme-toggle.js" defer></script>
+  <script src="js/projects-crud.js" defer></script>
+
+  <style>
+    main.crud-main{
+      width:min(92vw, 900px);
+      margin:2rem auto;
+      padding:0 1rem;
+      display:grid;
+      gap:1.25rem;
+    }
+
+    main.crud-main > header{
+      text-align:center;
+    }
+
+    main.crud-main > header h1{
+      font-size:clamp(28px,4vw,40px);
+      font-weight:800;
+      margin:0 0 .35rem;
+    }
+
+    main.crud-main > header p{
+      color:var(--muted,#555);
+      max-width:52ch;
+      margin:0 auto;
+    }
+
+    section#crud-form-section{
+      background:var(--card-bg, var(--card,#f7f7f7));
+      border-radius:var(--radius,16px);
+      box-shadow:var(--shadow-soft,0 4px 16px rgba(0,0,0,.1));
+      padding:1.1rem 1rem 1.25rem;
+    }
+
+    section#crud-form-section h2{
+      font-size:clamp(20px,2.6vw,24px);
+      margin:.1rem 0 .6rem;
+      line-height:1.25;
+      padding-bottom:.35rem;
+      position:relative;
+    }
+    section#crud-form-section h2::after{
+      content:"";
+      display:block;
+      width:64px;
+      height:3px;
+      margin-top:.35rem;
+      background:var(--accent,#f2442e);
+      border-radius:999px;
+    }
+
+    #crudForm{
+      display:grid;
+      gap:1rem;
+    }
+
+    #crudForm fieldset{
+      border:1px solid var(--rule,#ddd);
+      border-radius:12px;
+      padding:.9rem;
+      background:var(--card-bg, var(--card,#f7f7f7));
+      box-shadow:0 4px 12px rgba(0,0,0,.05);
+    }
+
+    #crudForm legend{
+      font-weight:700;
+      padding:0 .35rem;
+    }
+
+    #crudForm label{
+      display:block;
+      font-weight:600;
+      margin-bottom:.25rem;
+    }
+
+    #crudForm input,
+    #crudForm textarea{
+      width:100%;
+      padding:.55rem .75rem;
+      border-radius:8px;
+      border:1px solid var(--rule,#ddd);
+      font:inherit;
+      color:inherit;
+      background:color-mix(in oklab, var(--page-bg,#c9c5c5) 90%, #ffffff 10%);
+      box-sizing:border-box;
+      transition:
+        border-color .15s ease,
+        box-shadow .15s ease,
+        background-color .2s ease;
+    }
+
+    #crudForm textarea{
+      min-height:80px;
+      resize:vertical;
+    }
+
+    #crudForm small{
+      display:block;
+      margin-top:.2rem;
+      font-size:.8rem;
+      color:var(--muted,#555);
+    }
+
+    #crudForm input:focus,
+    #crudForm textarea:focus{
+      outline:none;
+      border-color:color-mix(in oklab, var(--primary,#7fd3d4) 70%, #000 0%);
+      box-shadow:0 0 0 3px color-mix(in oklab, var(--primary,#7fd3d4) 30%, transparent);
+    }
+
+    :root[data-theme="dark"] #crudForm fieldset{
+      background:color-mix(
+        in oklab,
+        var(--page-bg,#020617) 85%,
+        #000 15%
+      );
+      box-shadow:0 4px 20px rgba(0,0,0,.6);
+    }
+
+    :root[data-theme="dark"] #crudForm input,
+    :root[data-theme="dark"] #crudForm textarea{
+      background-color:color-mix(
+        in oklab,
+        var(--page-bg,#020617) 85%,
+        #000 15%
+      );
+      color:var(--ink,#e5e7eb);
+      border-color:var(--rule,#27272f);
+    }
+
+    :root[data-theme="dark"] #crudForm small{
+      color:var(--muted,#9ca3af);
+    }
+
+    .crud-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:.5rem;
+      justify-content:flex-start;
+      align-items:center;
+      margin-top:.25rem;
+    }
+
+    .crud-buttons button{
+      margin:0;
+      padding:.45rem 1.1rem;
+      border-radius:999px;
+      border:1px solid #d1d5db;
+      background:#f9fafb;
+      cursor:pointer;
+      font-weight:600;
+      font-size:.9rem;
+    }
+
+    .crud-buttons button:hover,
+    .crud-buttons button:focus-visible{
+      background:#e5e7eb;
+      outline:none;
+    }
+
+    :root[data-theme="dark"] .crud-buttons button{
+      border-color:#4b5563;
+      background:color-mix(in oklab, #111827 85%, #6b7280 15%);
+      color:var(--ink,#e5e7eb);
+    }
+
+    :root[data-theme="dark"] .crud-buttons button:hover,
+    :root[data-theme="dark"] .crud-buttons button:focus-visible{
+      background:color-mix(in oklab, #1f2937 85%, #9ca3af 15%);
+    }
+
+    #crud-status{
+      margin-top:.4rem;
+      font-size:.9rem;
+      color:var(--muted,#555);
+      min-height:1.4em;
+    }
+
+    #crud-status.error{
+      color:var(--accent,#f2442e);
+      font-weight:600;
+    }
+
+    @media (min-width: 900px){
+      #crudForm fieldset.fields-two-col{
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0,1fr));
+        gap:.8rem .75rem;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <nav aria-label="Main navigation" class="site-nav">
+    <a class="brand vt-link" href="index.html">
+      <b>Shuting Chen</b> — <span>UCSD ECE Student</span>
+    </a>
+
+    <details class="menu">
+      <summary aria-label="Toggle navigation">☰</summary>
+      <menu-items>
+        <a href="resume.html" class="vt-link">Resume</a>
+        <a href="projects.html" class="vt-link">Projects</a>
+        <a href="projects-crud.html" class="vt-link">Projects CRUD</a>
+        <a href="contact.html" class="vt-link">Contact</a>
+      </menu-items>
+    </details>
+  </nav>
+
+  <main class="crud-main">
+    <header>
+      <h1>Manage Project Data (CRUD)</h1>
+      <p>
+        This page edits the <code>sc-projects-local</code> data in <code>localStorage</code>.
+        After creating, updating, or deleting a project here, go back to the
+        <strong>Projects</strong> page and click <em>Load Local</em> to see the changes.
+      </p>
+    </header>
+
+    <section id="crud-form-section" aria-labelledby="crud-form-title">
+      <h2 id="crud-form-title">Edit Local Project Records</h2>
+
+      <form id="crudForm" novalidate>
+        <fieldset>
+          <legend>Project identifier</legend>
+          <label for="proj-id">Project ID<span aria-hidden="true">*</span></label>
+          <input id="proj-id" name="id" required placeholder="e.g., cpu, mobile-app, roundsense">
+          <small>Used as the unique key for update/delete. It should match the <code>id</code> used in your project cards.</small>
+        </fieldset>
+
+        <fieldset class="fields-two-col">
+          <legend>Main fields</legend>
+
+          <div>
+            <label for="proj-title">Title</label>
+            <input id="proj-title" name="title" placeholder="Project title">
+          </div>
+
+          <div>
+            <label for="proj-timeframe">Timeframe</label>
+            <input id="proj-timeframe" name="timeframe" placeholder="e.g., 03/2025 – 06/2025 · UC San Diego">
+          </div>
+
+          <div style="grid-column: 1 / -1;">
+            <label for="proj-desc">Description</label>
+            <textarea id="proj-desc" name="desc" placeholder="Short description shown in the project card."></textarea>
+          </div>
+
+          <div>
+            <label for="proj-tags">Tags</label>
+            <input id="proj-tags" name="tags" placeholder="Comma separated, e.g., SystemVerilog, FPGA, CPU design">
+          </div>
+
+          <div>
+            <label for="proj-image">Image URL</label>
+            <input id="proj-image" name="image" placeholder="Optional image URL">
+          </div>
+
+          <div>
+            <label for="proj-alt">Image alt text</label>
+            <input id="proj-alt" name="alt" placeholder="Accessible description of the image">
+          </div>
+
+          <div>
+            <label for="proj-link">Link</label>
+            <input id="proj-link" name="link" placeholder="Optional link URL shown as the card action">
+          </div>
+
+          <div>
+            <label for="proj-linkLabel">Link label</label>
+            <input id="proj-linkLabel" name="linkLabel" placeholder="e.g., View related repository">
+          </div>
+        </fieldset>
+
+        <div class="crud-buttons">
+          <button type="button" id="btn-load-existing">Load by ID</button>
+          <button type="button" id="btn-create">Create (POST)</button>
+          <button type="button" id="btn-update">Update (PUT)</button>
+          <button type="button" id="btn-delete">Delete (DELETE)</button>
+        </div>
+
+        <p id="crud-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <foot-grid aria-label="Footer information">
+
+      <foot-item>
+        <strong class="foot-title">Phone</strong>
+        <p class="foot-value">
+          <a href="tel:+18058860380">+1 (805) 886-0380</a>
+        </p>
+      </foot-item>
+
+      <foot-item>
+        <strong class="foot-title">Email</strong>
+        <p class="foot-value">
+          <a href="mailto:shc070@ucsd.edu">shc070@ucsd.edu</a>
+        </p>
+      </foot-item>
+
+      <foot-item>
+        <strong class="foot-title">Follow Me</strong>
+        <p class="foot-value">
+          <a href="https://www.instagram.com/cc_cst_/?next=%2F" target="_blank" rel="noopener">
+            <img src="ins.png" alt="Instagram" width="18" height="18">
+          </a>
+        </p>
+      </foot-item>
+
+      <foot-item>
+        <p class="foot-value">&copy; 2025 Shuting Chen</p>
+      </foot-item>
+
+    </foot-grid>
+  </footer>
+</body>
+</html>
