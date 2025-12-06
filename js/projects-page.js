@@ -20,7 +20,7 @@ const PROJECTS_LOCAL_SEED = [
     tags: ["Team leadership", "Mobile UX", "BDD", "CI/CD"],
     image: "cse.png",
     alt: "UCSD CSE Department LOGO",
-    link: "https://example.com/mobile-case-study",
+    link: "https://github.com/X1aoshu",
     linkLabel: "Read project summary"
   },
   {
@@ -31,7 +31,7 @@ const PROJECTS_LOCAL_SEED = [
     tags: ["Product design", "Esports analytics", "Startup"],
     image: "RoundSense.png",
     alt: "LOGO of RoundSense",
-    link: "https://example.com/roundsense-overview",
+    link: "https://github.com/X1aoshu",
     linkLabel: "See product concept"
   },
   {
@@ -42,7 +42,7 @@ const PROJECTS_LOCAL_SEED = [
     tags: ["Operations", "Travel industry", "Partnerships", "Risk management"],
     image: "TreeVerse.png",
     alt: "LOGO of TreeVerse",
-    link: "https://example.com/treeverse-story",
+    link: "https://github.com/X1aoshu",
     linkLabel: "Learn about TreeVerse"
   }
 ];
